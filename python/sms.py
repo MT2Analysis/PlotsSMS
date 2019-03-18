@@ -70,10 +70,10 @@ class sms():
         self.label= "pp #rightarrow #tilde{g} #tilde{g}, #tilde{g} #rightarrow q #bar{q} #tilde{#chi}^{0}_{1}";
         # plot boundary. The top 1/4 of the y axis is taken by the legend
         self.Xmin = 600
-        self.Xmax = 2000
+        self.Xmax = 2400
         self.Ymin = 0
-        self.Ymax = 1800
-        self.Zmin = 0.001
+        self.Ymax = 2000
+        self.Zmin = 0.0001
         self.Zmax = 2
         # produce sparticle
         self.sParticle = "m_{#kern[0.2]{#tilde{g}}} [GeV]"
