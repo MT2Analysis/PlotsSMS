@@ -113,7 +113,7 @@ class smsPlotSigABS(object):
         textCMS.Draw()
         self.c.textCMS = textCMS
         # MODEL LABEL
-        textModelLabel= rt.TLatex(0.15,0.90,"%s  NLO+NLL cross section" %self.model.label)
+        textModelLabel= rt.TLatex(0.15,0.90,"%s  NNLO+NNLL cross section" %self.model.label)
 #        textModelLabel= rt.TLatex(0.15,0.90,"%s  NLO+NLL exclusion" %self.model.label)
         textModelLabel.SetNDC()
         textModelLabel.SetTextAlign(13)
@@ -122,7 +122,7 @@ class smsPlotSigABS(object):
         textModelLabel.Draw()
         self.c.textModelLabel = textModelLabel
         # NLO NLL XSEC
-        textNLONLL= rt.TLatex(0.16,0.32,"NLO-NLL exclusion")
+        textNLONLL= rt.TLatex(0.16,0.32,"NNLO+NNLL exclusion")
         textNLONLL.SetNDC()
         textNLONLL.SetTextAlign(13)
         textNLONLL.SetTextFont(42)

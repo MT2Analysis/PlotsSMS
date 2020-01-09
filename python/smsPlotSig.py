@@ -23,30 +23,31 @@ class smsPlotSig(smsPlotSigABS):
         self.histo.GetZaxis().SetTitleFont(42)
         self.histo.GetZaxis().SetLabelSize(0.035)
         self.histo.GetZaxis().SetTitleSize(0.035)
-        self.histo.SetMinimum(-1.5)
-        self.histo.SetMaximum(1.5)
+        self.histo.SetMinimum(-3)
+        self.histo.SetMaximum(3)
 
         # define the palette for z axis
-        NRGBs = 5
+        #NRGBs = 5
         NCont = 255
-#        stops = array("d",[0.00, 0.34, 0.61, 0.84, 1.00])
-#        red= array("d",[0.50, 0.50, 1.00, 1.00, 1.00])
-#        green = array("d",[ 0.50, 1.00, 1.00, 0.60, 0.50])
-#        blue = array("d",[1.00, 1.00, 0.50, 0.40, 0.50])
-#        rt.TColor.CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont)
+        #stops = array("d",[0.00, 0.34, 0.61, 0.84, 1.00])
+        #red= array("d",[0.50, 0.50, 1.00, 1.00, 1.00])
+        #green = array("d",[ 0.50, 1.00, 1.00, 0.60, 0.50])
+        #blue = array("d",[1.00, 1.00, 0.50, 0.40, 0.50])
+        #rt.TColor.CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont)
         rt.gStyle.SetNumberContours(NCont)
         
         self.c.cd()
         self.histo.Draw("colz")
         
         rt.gPad.Update()
-        palette = self.histo.GetListOfFunctions().FindObject("palette")
-        palette.SetX1NDC(1.-0.18)
-        palette.SetY1NDC(0.14)
-        palette.SetX2NDC(1.-0.13)
-        palette.SetY2NDC(1.-0.08)
-        palette.SetLabelFont(42)
-        palette.SetLabelSize(0.035)
+        rt.gStyle.SetPalette(rt.kLightTemperature)
+        #palette = self.histo.GetListOfFunctions().FindObject("palette")
+        #palette.SetX1NDC(1.-0.18)
+        #palette.SetY1NDC(0.14)
+        #palette.SetX2NDC(1.-0.13)
+        #palette.SetY2NDC(1.-0.08)
+        #palette.SetLabelFont(42)
+        #palette.SetLabelSize(0.035)
 
     def DrawPaletteLabel(self):
         textCOLZ = rt.TLatex(0.98,0.62,"Significance [#sigma]")
