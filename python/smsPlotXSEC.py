@@ -94,6 +94,8 @@ class smsPlotXSEC(smsPlotABS):
             #self.c.mtopgdiagonal2 = gdiagonal
         if self.model.t2ccDiagOn:
             self.DrawT2ccDiagonal()
+        if self.model.blanklep:
+            self.DrawBlankLEP()
         self.DrawText()
         self.DrawLegend()
         self.DrawPaletteLabel()

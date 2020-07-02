@@ -23,8 +23,8 @@ class smsPlotSig(smsPlotSigABS):
         self.histo.GetZaxis().SetTitleFont(42)
         self.histo.GetZaxis().SetLabelSize(0.035)
         self.histo.GetZaxis().SetTitleSize(0.035)
-        self.histo.SetMinimum(-1.5)
-        self.histo.SetMaximum(1.5)
+        self.histo.SetMinimum(-3)
+        self.histo.SetMaximum(3)
 
         # define the palette for z axis
         NRGBs = 5

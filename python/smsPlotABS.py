@@ -53,7 +53,9 @@ class smsPlotABS(object):
         # set x axis
         self.emptyHisto.GetXaxis().SetLabelFont(42)
         self.emptyHisto.GetXaxis().SetLabelSize(0.035)
+        self.emptyHisto.GetXaxis().SetLabelOffset(0.015)
         self.emptyHisto.GetXaxis().SetTitleFont(42)
+#        self.emptyHisto.GetXaxis().SetNdivisions(505)
         self.emptyHisto.GetXaxis().SetTitleSize(0.05)
         self.emptyHisto.GetXaxis().SetTitleOffset(1.2)
         self.emptyHisto.GetXaxis().SetTitle(self.model.sParticle)
@@ -61,10 +63,12 @@ class smsPlotABS(object):
 
         # set y axis
         self.emptyHisto.GetYaxis().SetLabelFont(42)
-        self.emptyHisto.GetYaxis().SetLabelSize(0.035)
+#        self.emptyHisto.GetYaxis().SetLabelSize(0.035)
+        self.emptyHisto.GetYaxis().SetLabelSize(0.03)
         self.emptyHisto.GetYaxis().SetTitleFont(42)
         self.emptyHisto.GetYaxis().SetTitleSize(0.05)
-        self.emptyHisto.GetYaxis().SetTitleOffset(1.30)
+#        self.emptyHisto.GetYaxis().SetTitleOffset(1.3)
+        self.emptyHisto.GetYaxis().SetTitleOffset(1.307)
         self.emptyHisto.GetYaxis().SetTitle(self.model.LSP)
         #self.emptyHisto.GetYaxis().CenterTitle(True)
                 
@@ -104,13 +108,56 @@ class smsPlotABS(object):
         textCMS.Draw()
         self.c.textCMS = textCMS
         # MODEL LABEL
-        textModelLabel= rt.TLatex(0.15,0.90,"%s  NLO+NLL exclusion" %self.model.label)
+        #textModelLabel= rt.TLatex(0.15,0.90,"%s  NLO+NLL exclusion" %self.model.label)
+#        textModelLabel= rt.TLatex(0.15,0.90,"%s" %self.model.label)
+#        textModelLabel= rt.TLatex(0.15,0.90,"%s  Approx. NNLO+NNLL exclusion" %self.model.label)
+        textModelLabel= rt.TLatex(0.15,0.90,"%s  #scale[0.97]{Approx. NNLO+NNLL exclusion}" %self.model.label)
+#        textModelLabel= rt.TLatex(0.15,0.90,"%s  #scale[0.95]{Approx. NNLO+NNLL exclusion}" %self.model.label)
+#        textModelLabel2= rt.TLatex(0.15,0.90,"%s  Approx. NNLO+NNLL exclusion" %self.model.label)
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW":
+            #textModelLabel= rt.TLatex(0.15,0.92,"#splitline{%s}{NLO+NLL exclusion}" %self.model.label)
+            textModelLabel= rt.TLatex(0.15,0.92,"#splitline{%s}{Approx. NNLO+NNLL exclusion}" %self.model.label)
+        if self.model.modelname == "rpvMonoPhi":
+            #textModelLabel= rt.TLatex(0.15,0.90,"%s           LO exclusion" %self.model.label)
+            textModelLabel= rt.TLatex(0.15,0.90,"%s    LO exclusion" %self.model.label)
         textModelLabel.SetNDC()
         textModelLabel.SetTextAlign(13)
         textModelLabel.SetTextFont(42)
-        textModelLabel.SetTextSize(0.035)
+        textModelLabel.SetTextSize(0.032)
+        #textModelLabel.SetTextSize(0.03)
+        textModelLabel.SetTextSize(0.032)
+        #textModelLabel.SetTextSize(0.028)
+        textModelLabel.SetTextSize(0.042)
         textModelLabel.Draw()
         self.c.textModelLabel = textModelLabel
+        # EXTRA TEXT
+        if self.model.extraText:
+            xRange = self.model.Xmax-self.model.Xmin
+            yRange = self.model.Ymax-self.model.Ymin
+            if self.model.extraText1!="" and self.model.extraText2=="":
+                extraTEXT= rt.TLatex(0.6, 0.855,"%s" %self.model.extraText1)
+###                extraTEXT= rt.TLatex(0.5, 0.855,"%s" %self.model.extraText1)
+            elif self.model.extraText1!="" and self.model.extraText2!="":
+                print self.model.extraText1,self.model.extraText2
+                extraTEXT= rt.TLatex(0.6, 0.855,"#splitline{%s}{%s}" %(self.model.extraText1,self.model.extraText2))
+                #extraTEXT= rt.TLatex(0.5, 0.855,"%s" %self.model.extraText1)
+###MM                extraTEXT2= rt.TLatex(0.17, 0.72,"%s" %(self.model.extraText2))
+            extraTEXT.SetNDC()
+            extraTEXT.SetTextAlign(13)
+            extraTEXT.SetTextFont(42)
+            extraTEXT.SetTextSize(0.027)
+#            extraTEXT.SetTextSize(0.023)
+#            extraTEXT.SetTextSize(0.018)
+            extraTEXT.Draw()
+            self.c.extraTEXT = extraTEXT
+###MM            extraTEXT2.SetNDC()
+###MM            extraTEXT2.SetTextAlign(13)
+###MM            extraTEXT2.SetTextFont(42)
+###MM            extraTEXT2.SetTextSize(0.027)
+###MM            extraTEXT2.SetTextSize(0.023)
+###MM#            extraTEXT.SetTextSize(0.018)
+###MM            extraTEXT2.Draw()
+###MM            self.c.extraTEXT2 = extraTEXT2
         # NLO NLL XSEC
         textNLONLL= rt.TLatex(0.16,0.32,"NLO-NLL exclusion")
         textNLONLL.SetNDC()
@@ -124,7 +171,12 @@ class smsPlotABS(object):
         if not self.OBS2 or self.model.modelname != "T2qq": return
 
         # 8 squark label
-        text8squark= rt.TLatex(750,600,"#tilde{q}_{L}+#tilde{q}_{R} (#tilde{u}, #tilde{d}, #tilde{s}, #tilde{c})")
+        text8squark= rt.TLatex(1240,925,"#tilde{q}_{L}+#tilde{q}_{R} (#tilde{u}, #tilde{d}, #tilde{s}, #tilde{c})")
+#        text8squark= rt.TLatex(1400,1050,"#tilde{q}_{L}+#tilde{q}_{R} (#tilde{u}, #tilde{d}, #tilde{s}, #tilde{c})")
+#        text8squark= rt.TLatex(1400,1335,"#tilde{q}_{L}+#tilde{q}_{R} (#tilde{u}, #tilde{d}, #tilde{s}, #tilde{c})")
+#        text8squark= rt.TLatex(1200,1050,"#tilde{q}_{L}+#tilde{q}_{R} (#tilde{u}, #tilde{d}, #tilde{s}, #tilde{c})")
+#        text8squark= rt.TLatex(1450,1350,"#tilde{q}_{L}+#tilde{q}_{R} (#tilde{u}, #tilde{d}, #tilde{s}, #tilde{c})")
+        #text8squark= rt.TLatex(1100,825,"#tilde{q}_{L}+#tilde{q}_{R} (#tilde{u}, #tilde{d}, #tilde{s}, #tilde{c})")
         #text8squark.SetNDC()
         text8squark.SetTextAlign(11)
         text8squark.SetTextFont(42)
@@ -132,7 +184,12 @@ class smsPlotABS(object):
         text8squark.Draw()
         self.c.text8squark = text8squark
         # 1 squark label
-        text1squark= rt.TLatex(470,300,"one light #tilde{q}")
+        text1squark= rt.TLatex(800,550,"one light #tilde{q}")
+#        text1squark= rt.TLatex(1050,625,"one light #tilde{q}")
+#        text1squark= rt.TLatex(1050,925,"one light #tilde{q}")
+#        text1squark= rt.TLatex(800,725,"one light #tilde{q}")
+#        text1squark= rt.TLatex(1050,975,"one light #tilde{q}")
+        #text1squark= rt.TLatex(900,400,"one light #tilde{q}")
         #text1squark.SetNDC()
         text1squark.SetTextAlign(11)
         text1squark.SetTextFont(42)
@@ -157,9 +214,12 @@ class smsPlotABS(object):
         LObs.SetLineStyle(1)
         LObs.SetLineWidth(4)
         LObs.SetMarkerStyle(20)
-        LObs.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.35*yRange/100*10)
-        LObs.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.35*yRange/100*10)
-
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW":
+            LObs.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.35*yRange/100*10 - 15)
+            LObs.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.35*yRange/100*10 - 15)
+        else:
+            LObs.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.35*yRange/100*10)
+            LObs.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.35*yRange/100*10)
         LObsP = rt.TGraph(2)
         LObsP.SetName("LObsP")
         LObsP.SetTitle("LObsP")
@@ -167,9 +227,12 @@ class smsPlotABS(object):
         LObsP.SetLineStyle(1)
         LObsP.SetLineWidth(2)
         LObsP.SetMarkerStyle(20)
-        LObsP.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.20*yRange/100*10)
-        LObsP.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.20*yRange/100*10)
-
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW":
+            LObsP.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.20*yRange/100*10 - 15)
+            LObsP.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.20*yRange/100*10 - 15)
+        else:
+            LObsP.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.20*yRange/100*10)
+            LObsP.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.20*yRange/100*10)            
         LObsM = rt.TGraph(2)
         LObsM.SetName("LObsM")
         LObsM.SetTitle("LObsM")
@@ -177,12 +240,21 @@ class smsPlotABS(object):
         LObsM.SetLineStyle(1)
         LObsM.SetLineWidth(2)
         LObsM.SetMarkerStyle(20)
-        LObsM.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.50*yRange/100*10)
-        LObsM.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.50*yRange/100*10)
-
-        textObs = rt.TLatex(self.model.Xmin+11*xRange/100, self.model.Ymax-1.50*yRange/100*10, "Observed #pm 1 #sigma_{theory}")
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW":
+            LObsM.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.50*yRange/100*10 - 15)
+            LObsM.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.50*yRange/100*10 - 15)
+        else:
+            LObsM.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.50*yRange/100*10)
+            LObsM.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.50*yRange/100*10)
+            
+        textObs = rt.TLatex(self.model.Xmin+11*xRange/100, self.model.Ymax-1.50*yRange/100*10, "Observed #pm 1 s.d._{#kern[0.4]{t}heory}")
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW": # or self.model.modelname == "T1qqqq" or self.model.modelname == "T2qq":
+            textObs = rt.TLatex(self.model.Xmin+11*xRange/100, self.model.Ymax-1.50*yRange/100*10 - 15, "Observed #pm 1 s.d._{#kern[0.4]{t}heory}")
         textObs.SetTextFont(42)
         textObs.SetTextSize(0.040)
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW": # or self.model.modelname == "T1qqqq" or self.model.modelname == "T2qq":
+            textObs.SetTextSize(0.033)
+            textObs.SetTextSize(0.03)
         textObs.Draw()
         self.c.textObs = textObs
 
@@ -192,21 +264,32 @@ class smsPlotABS(object):
         LExpP.SetLineColor(color(self.EXP['colorLine']))
         LExpP.SetLineStyle(7)
         LExpP.SetLineWidth(2)  
-        if 'plus2' not in self.EXP:        
-            LExpP.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.85*yRange/100*10)
-            LExpP.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.85*yRange/100*10)
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW":
+            if 'plus2' not in self.EXP:        
+                LExpP.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.85*yRange/100*10 - 7.5)
+                LExpP.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.85*yRange/100*10 - 7.5)
+            else:
+                LExpP.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.9*yRange/100*10 - 7.5)
+                LExpP.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.9*yRange/100*10 - 7.5)
         else:
-            LExpP.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.9*yRange/100*10)
-            LExpP.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.9*yRange/100*10)
-
+            if 'plus2' not in self.EXP:
+                LExpP.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.85*yRange/100*10)
+                LExpP.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.85*yRange/100*10)
+            else:
+                LExpP.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.9*yRange/100*10)
+                LExpP.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.9*yRange/100*10)
         LExp = rt.TGraph(2)
         LExp.SetName("LExp")
         LExp.SetTitle("LExp")
         LExp.SetLineColor(color(self.EXP['colorLine']))
         LExp.SetLineStyle(7)
         LExp.SetLineWidth(4)
-        LExp.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.00*yRange/100*10)
-        LExp.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.00*yRange/100*10)
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW":
+            LExp.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.00*yRange/100*10 - 7.5)
+            LExp.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.00*yRange/100*10 - 7.5)
+        else:
+            LExp.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.00*yRange/100*10)
+            LExp.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.00*yRange/100*10)
         
         LExpM = rt.TGraph(2)
         LExpM.SetName("LExpM")
@@ -214,12 +297,20 @@ class smsPlotABS(object):
         LExpM.SetLineColor(color(self.EXP['colorLine']))
         LExpM.SetLineStyle(7)
         LExpM.SetLineWidth(2)  
-        if 'plus2' not in self.EXP:        
-            LExpM.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.15*yRange/100*10)
-            LExpM.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.15*yRange/100*10)
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW":
+            if 'plus2' not in self.EXP:        
+                LExpM.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.15*yRange/100*10 - 7.5)
+                LExpM.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.15*yRange/100*10 - 7.5)
+            else:
+                LExpM.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.1*yRange/100*10 - 7.5)
+                LExpM.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.1*yRange/100*10 - 7.5)
         else:
-            LExpM.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.1*yRange/100*10)
-            LExpM.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.1*yRange/100*10)
+            if 'plus2' not in self.EXP:        
+                LExpM.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.15*yRange/100*10)
+                LExpM.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.15*yRange/100*10)
+            else:
+                LExpM.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.1*yRange/100*10)
+                LExpM.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.1*yRange/100*10)
 
         LExp2P = rt.TGraph(2)
         LExp2P.SetName("LExp2P")
@@ -227,24 +318,42 @@ class smsPlotABS(object):
         LExp2P.SetLineColor(color(self.EXP['colorLine']))
         LExp2P.SetLineStyle(3)
         LExp2P.SetLineWidth(2)  
-        LExp2P.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.8*yRange/100*10)
-        LExp2P.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.8*yRange/100*10)
-
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW":
+             LExp2P.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.8*yRange/100*10 - 7.5)
+             LExp2P.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.8*yRange/100*10 - 7.5)
+        else:
+             LExp2P.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-1.8*yRange/100*10)
+             LExp2P.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-1.8*yRange/100*10)
+        
         LExp2M = rt.TGraph(2)
         LExp2M.SetName("LExp2M")
         LExp2M.SetTitle("LExp2M")
         LExp2M.SetLineColor(color(self.EXP['colorLine']))
         LExp2M.SetLineStyle(3)
-        LExp2M.SetLineWidth(2)  
-        LExp2M.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.2*yRange/100*10)
-        LExp2M.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.2*yRange/100*10)
-
-        if 'plus2' not in self.EXP:
-            textExp = rt.TLatex(self.model.Xmin+11*xRange/100, self.model.Ymax-2.15*yRange/100*10, "Expected #pm 1 #sigma_{experiment}")
+        LExp2M.SetLineWidth(2)
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW":
+            LExp2M.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.2*yRange/100*10 - 7.5)
+            LExp2M.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.2*yRange/100*10 - 7.5)
         else:
-            textExp = rt.TLatex(self.model.Xmin+11*xRange/100, self.model.Ymax-2.15*yRange/100*10, "Expected #pm 1, 2 #sigma_{experiment}")
+            LExp2M.SetPoint(0,self.model.Xmin+3*xRange/100, self.model.Ymax-2.2*yRange/100*10)
+            LExp2M.SetPoint(1,self.model.Xmin+10*xRange/100, self.model.Ymax-2.2*yRange/100*10)
+        
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW":
+            if 'plus2' not in self.EXP:
+                textExp = rt.TLatex(self.model.Xmin+11*xRange/100, self.model.Ymax-2.15*yRange/100*10 - 7.5, "Expected #pm 1 s.d._{#lower[-0.13]{#kern[0.4]{e}xperiment}}")
+            else:
+                textExp = rt.TLatex(self.model.Xmin+11*xRange/100, self.model.Ymax-2.15*yRange/100*10 - 7.5, "Expected #pm 1, 2 s.d._{#lower[-0.13]{#kern[0.4]{e}xperiment}}")
+        else:
+            if 'plus2' not in self.EXP:
+                textExp = rt.TLatex(self.model.Xmin+11*xRange/100, self.model.Ymax-2.15*yRange/100*10, "Expected #pm 1 s.d._{#lower[-0.13]{#kern[0.4]{e}xperiment}}")
+            else:
+                textExp = rt.TLatex(self.model.Xmin+11*xRange/100, self.model.Ymax-2.15*yRange/100*10, "Expected #pm 1, 2 s.d._{#lower[-0.13]{#kern[0.4]{e}xperiment}}")
         textExp.SetTextFont(42)
-        textExp.SetTextSize(0.040)
+        if self.model.modelname == "T2bt" or self.model.modelname == "T2bW": # or self.model.modelname == "T1qqqq" or self.model.modelname == "T2qq":
+            textExp.SetTextSize(0.033)            
+            textExp.SetTextSize(0.03)
+        else:
+            textExp.SetTextSize(0.040)
         textExp.Draw()
         self.c.textExp = textExp
 
@@ -281,18 +390,19 @@ class smsPlotABS(object):
         ldiagonal.SetLineColor(rt.kGray)
         ldiagonal.SetLineStyle(2)
         #tdiagonal = rt.TLatex(200, 200-self.model.mT,"m_{#tilde{t}} = m_{t} + m_{#tilde{#chi}_{1}^{0}}")
-        tdiagonal = rt.TLatex(450, 450-self.model.mT,"m_{#tilde{t}} = m_{t} + m_{#tilde{#chi}_{1}^{0}}")
+        tdiagonal = rt.TLatex(780, 780-self.model.mT,"m_{#tilde{t}} = m_{t} + m_{#tilde{#chi}_{1}^{0}}")
         tdiagonal.SetTextAngle(math.degrees(math.atan(float(self.model.Xmax)/float(self.model.Ymax))))
         tdiagonal.SetTextColor(rt.kGray+2)
         tdiagonal.SetTextAlign(11)
-        tdiagonal.SetTextSize(0.025)
+#        tdiagonal.SetTextSize(0.025)
+        tdiagonal.SetTextSize(0.035)
         gdiagonal.Draw("FSAME")
         ldiagonal.Draw("LSAME")
         tdiagonal.Draw("SAME")
         self.c.mtopgdiagonal = gdiagonal
         self.c.mtopldiagonal = ldiagonal
         self.c.mtoptdiagonal = tdiagonal
- 
+
     def DrawSmallMtopDiagonal(self, transparency=1):
         diagX = array('f',[self.model.mT+self.model.dM,self.model.mT+self.model.dM+87.5,self.model.mT-self.model.dM+87.5+25.0,self.model.mT-self.model.dM])
         diagY = array('f',[0,87.5,87.5+25.0,0])
@@ -303,14 +413,16 @@ class smsPlotABS(object):
         #gdiagonal.SetFillColorAlpha(18, 0.7)
         #gdiagonal.SetFillColor(18)
         ldiagonal = rt.TLine(self.model.mT,0,self.model.mT+self.model.Ymax,self.model.Ymax)
-        ldiagonal.SetLineColor(rt.kGray)
+        #ldiagonal = rt.TLine(self.model.mT+175,175,self.model.mT+self.model.Ymax,self.model.Ymax)
+        ldiagonal.SetLineColor(rt.kGray+2)
         ldiagonal.SetLineStyle(2)
         #tdiagonal = rt.TLatex(200, 200-self.model.mT,"m_{#tilde{t}} = m_{t} + m_{#tilde{#chi}_{1}^{0}}")
-        tdiagonal = rt.TLatex(450, 450-self.model.mT,"m_{#tilde{t}} = m_{t} + m_{#tilde{#chi}_{1}^{0}}")
+        tdiagonal = rt.TLatex(780, 780-self.model.mT,"m_{#tilde{t}} = m_{t} + m_{#tilde{#chi}_{1}^{0}}")
         tdiagonal.SetTextAngle(math.degrees(math.atan(float(self.model.Xmax)/float(self.model.Ymax))))
         tdiagonal.SetTextColor(rt.kGray+2)
         tdiagonal.SetTextAlign(11)
-        tdiagonal.SetTextSize(0.025)
+#        tdiagonal.SetTextSize(0.025)
+        tdiagonal.SetTextSize(0.035)
         gdiagonal.Draw("FSAME")
         ldiagonal.Draw("LSAME")
         tdiagonal.Draw("SAME")
@@ -318,32 +430,73 @@ class smsPlotABS(object):
         self.c.mtopldiagonal = ldiagonal
         self.c.mtoptdiagonal = tdiagonal
  
+ 
     def DrawT2ccDiagonal(self, transparency=1):
         diagonal = rt.TLine(self.model.Xmin, self.model.Xmin, self.model.Xmax, self.model.Xmax)
         diagonal.SetLineColor(rt.kGray)
         diagonal.SetLineStyle(2)
-        tdiagonal = rt.TLatex(450, 450+10,"m_{#tilde{t}} = m_{#tilde{#chi}_{1}^{0}}")
-        tdiagonal.SetTextAngle(math.degrees(math.atan(float(self.model.Xmax)/float(self.model.Ymax))))
+        tdiagonal = rt.TLatex(450, 450+15,"m_{#tilde{t}} = m_{#tilde{#chi}_{1}^{0}}")
+        tdiagonal.SetTextAngle(math.degrees(math.atan((float(self.model.Xmax)-float(self.model.Xmin))/(float(self.model.Ymax)-float(self.model.Xmin)))))
         tdiagonal.SetTextColor(rt.kGray+2)
         tdiagonal.SetTextAlign(11)
-        tdiagonal.SetTextSize(0.025)
-        diagonal.Draw("LSAME")
-        tdiagonal.Draw("SAME")
+#        tdiagonal.SetTextSize(0.025)
+        tdiagonal.SetTextSize(0.03)
+#        diagonal.Draw("LSAME")
+#        tdiagonal.Draw("SAME")
         mW = 80
         diagonalW = rt.TLine(self.model.Xmin, self.model.Xmin-mW, self.model.Xmax, self.model.Xmax-mW)
-        diagonalW.SetLineColor(rt.kGray)
+        diagonalW.SetLineColor(rt.kGray+2)
         diagonalW.SetLineStyle(2)
-        tdiagonalW = rt.TLatex(450, 450-mW-10,"m_{#tilde{t}} = m_{W} + m_{#tilde{#chi}_{1}^{0}}")
-        tdiagonalW.SetTextAngle(math.degrees(math.atan(float(self.model.Xmax)/float(self.model.Ymax))))
+        tdiagonalW = rt.TLatex(575, 575-mW-25,"m_{#tilde{t}} = m_{W} + m_{#tilde{#chi}_{1}^{0}}")
+#        tdiagonalW.SetTextAngle(math.degrees(math.atan((float(self.model.Xmax)-float(self.model.Xmin)-mW)/(float(self.model.Ymax)-float(self.model.Xmin)-mW))))
+        tdiagonalW.SetTextAngle(math.degrees(math.atan((float(self.model.Xmax)-mW)/(float(self.model.Ymax)))))
+#        tdiagonalW.SetTextAngle(math.degrees(math.atan(float(self.model.Ymax)/float(self.model.Xmax))))
         tdiagonalW.SetTextColor(rt.kGray+2)
         tdiagonalW.SetTextAlign(13)
-        tdiagonalW.SetTextSize(0.025)
+#        tdiagonalW.SetTextSize(0.025)
+        tdiagonalW.SetTextSize(0.035)
         diagonalW.Draw("LSAME")
         tdiagonalW.Draw("SAME")
         self.c.diagonal   = diagonal
         self.c.diagonalW  = diagonalW
         self.c.tdiagonal  = tdiagonal
         self.c.tdiagonalW = tdiagonalW
+
+ 
+    def DrawBlankLEP(self, transparency=1):
+        diagX = array('f',[self.model.Xmax, self.model.Xmax, self.model.Xmin, self.model.Xmin])
+        diagY = array('f',[self.model.Ymin, 91.9, 91.9, self.model.Ymin])
+        gdiagonal = rt.TGraph(4, diagX, diagY)
+        gdiagonal.SetName("BlankLEP")
+        #gdiagonal.SetFillColor(rt.kWhite)
+        gdiagonal.SetFillColorAlpha(rt.kGray, transparency)
+        gdiagonal.SetFillStyle(3007)
+        gdiagonalw = rt.TGraph(4, diagX, diagY)
+        gdiagonalw.SetName("BlankLEPW")
+        #gdiagonal.SetFillColor(rt.kWhite)
+        gdiagonalw.SetFillColorAlpha(rt.kWhite, transparency)
+        #gdiagonal.SetFillColorAlpha(18, 0.7)
+        #gdiagonal.SetFillColor(18)
+        ldiagonal = rt.TLine(self.model.Xmin,91.9,self.model.Xmax,91.9)
+        ldiagonal.SetLineColor(rt.kGray)
+        ldiagonal.SetLineStyle(2)
+        #tdiagonal = rt.TLatex(200, 200-self.model.mT,"m_{#tilde{t}} = m_{t} + m_{#tilde{#chi}_{1}^{0}}")
+        tdiagonal = rt.TLatex((self.model.Xmax+self.model.Xmin)/2,91.9/2-25,"Excluded 95% CL (LEP)")
+                              #-(self.model.Xmax-self.model.Xmin)/16, 91.9/2-25,"Excluded 95% CL (LEP)")
+#        tdiagonal.SetTextAngle(math.degrees(math.atan(float(self.model.Xmax)/float(self.model.Ymax))))
+        tdiagonal.SetTextColor(rt.kBlack)
+        tdiagonal.SetTextAlign(21)
+#        tdiagonal.SetTextSize(0.025)
+        tdiagonal.SetTextSize(0.021)
+        gdiagonalw.Draw("FSAME")
+#        gdiagonal.Draw("FSAME")
+        ldiagonal.Draw("LSAME")
+        tdiagonal.Draw("SAME")
+        self.c.blanklepgw = gdiagonalw
+        self.c.blanklepg  = gdiagonal
+        self.c.blanklepl  = ldiagonal
+        self.c.blanklept  = tdiagonal
+ 
         
 
 

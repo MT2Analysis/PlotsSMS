@@ -24,12 +24,13 @@ namespace{
   float fillTransparency = 0.08;
 
   //int c8TeV(kGray+2);
-  int cQuark(kBlue), cTop(kMagenta+1), cBottom(kGreen+1);//, cQuark2(kAzure+10);
+  int cQuark(kBlue), cTop(kMagenta+1), cBottom(kGreen+1), cQuark2(kAzure+10);
+  int cTopC(kGreen+1), cTopB(kBlue), cTopW(kAzure+10);
   //int cSus15004_1l(kBlack), cSus15007(kCyan+2), cSus15008(kOrange);
 }
 
 int main(){
-  gErrorIgnoreLevel=kWarning; // Turns off ROOT INFO messages
+  //gErrorIgnoreLevel=kWarning; // Turns off ROOT INFO messages
 
   // Label definitions
   TString lsp("#tilde{#chi}#lower[0.2]{#scale[0.85]{^{0}}}#kern[-1.3]{#scale[0.85]{_{1}}}");
@@ -37,6 +38,8 @@ int main(){
   //TString pp_sqsq("pp #rightarrow #tilde{q}#kern[0.3]{#tilde{q}}");
   TString pp_sqsq("pp #rightarrow #tilde{q}#kern[0.3]{#bar{#tilde{q}}}");
   TString t2(pp_sqsq+", #tilde{q} #rightarrow q#kern[0.4]{"+lsp+"}");
+  TString t2stop("pp #rightarrow #tilde{t}#kern[0.3]{#bar{#tilde{t}}}");
+
   TString basetitle(pp_gluglu+",  #tilde{g} #rightarrow ");
   TString t1tttt("#tilde{g} #rightarrow t#kern[0.4]{#bar{t}}#kern[0.4]{"+lsp+"}");
   TString t1bbbb("#tilde{g} #rightarrow b#kern[0.4]{#bar{b}}#kern[0.4]{"+lsp+"}");
@@ -46,6 +49,13 @@ int main(){
   TString t2bb      ("#tilde{q} = #tilde{b}");
   //TString t2tt      ("#tilde{q} = #tilde{t} (#rightarrow t#kern[0.4]{"+lsp+"}#kern[0.4]{)}");
   TString t2tt      ("#tilde{q} = #tilde{t}");
+
+  TString t2tt_top    ("#tilde{t} #rightarrow t#kern[0.4]{"+lsp+"}");
+
+  TString t2bW      ("#tilde{t} #rightarrow b #tilde{#chi}^{#pm}_{1},   m_{#tilde{#chi}_{1}^{#pm}} = (m_{#tilde{t}} + m_{#tilde{#chi}_{1}^{0}})/2");
+  TString t2bt      ("#tilde{t} #rightarrow b #tilde{#chi}^{#pm}_{1} #rightarrow b W^{#pm} #tilde{#chi}^{0}_{1} or #rightarrow t #tilde{#chi}^{0}_{1},  #scale[2.25]{#lower[0.1]{{}} #scale[0.75]{#splitline{m_{#tilde{#chi}_{1}^{#pm}} - m_{#tilde{#chi}_{1}^{0}} = 5 GeV}{BR(#tilde{t} #rightarrow t #tilde{#chi}^{0}_{1}) = 50%}}");
+  TString t2cc      ("#tilde{t} #rightarrow c #tilde{#chi}^{0}_{1}");
+
   //TString t2qq_8fold("T2qq 8-fold");
   //TString t2qq_1fold("T2qq 1-fold");
   //TString t2bb      ("T2bb");
@@ -54,27 +64,60 @@ int main(){
 
   // Folder with root files containing the TGraphs
   //  TString folder("config/SUS15003/limits_final/");
-  TString folder("config/SUS16015/limits_July24/");
+  //  TString folder("config/SUS16015/limits_July24/");
+  TString folder("config/limits_2017_Mar07/");
   vector<model_limits> models;
 
   ///////////////////////////////    Defining T1 plot    /////////////////////////////////
   models.push_back(model_limits("T1", pp_gluglu));
-  models.back().add(t1qqqq, folder+"limits_T1qqqq_full_July24.root", 
+  models.back().add(t1qqqq, folder+"limits_T1qqqq_full_Mar07_V2.root", 
   		    cQuark, "gr_obs_smoothed", "gr_exp_smoothed");
-  models.back().add(t1bbbb, folder+"limits_T1bbbb_full_July24.root", 
+  models.back().add(t1bbbb, folder+"limits_T1bbbb_Mar07_V2.root", 
   		    cBottom, "gr_obs_smoothed", "gr_exp_smoothed");
-  models.back().add(t1tttt, folder+"limits_T1tttt_full_July24.root", 
+  models.back().add(t1tttt, folder+"limits_T1tttt_full_Mar07_V2.root", 
   		    cTop, "gr_obs_smoothed", "gr_exp_smoothed");
+
+  // models.back().add(t1qqqq, folder+"limits_T1qqqq_full_July24.root", 
+  // 		    cQuark, "gr_obs_smoothed", "gr_exp_smoothed");
+  // models.back().add(t1bbbb, folder+"limits_T1bbbb_full_July24.root", 
+  // 		    cBottom, "gr_obs_smoothed", "gr_exp_smoothed");
+  // models.back().add(t1tttt, folder+"limits_T1tttt_full_July24.root", 
+  // 		    cTop, "gr_obs_smoothed", "gr_exp_smoothed");
+
   ///////////////////////////////    Defining T2 plot    /////////////////////////////////
   models.push_back(model_limits("T2", t2));
-//  models.back().add(t2qq_8fold, folder+"limits_T2qq_full_01Feb_extrapolated.root", 
-//  		    cQuark, "gr_obs_smoothed;2", "gr_exp_smoothed;2");
-//  models.back().add(t2qq_1fold, folder+"limits_T2qq_full_01Feb-OneFold_extrapolated.root", 
-//  		    cQuark2, "gr_obs_smoothed;2", "gr_exp_smoothed;2");
-  models.back().add(t2bb      , folder+"limits_T2bb_full_July24.root", 
+  //  models.back().add(t2qq_8fold, folder+"limits_T2qq_full_01Feb_extrapolated.root", 
+  //  		    cQuark, "gr_obs_smoothed;2", "gr_exp_smoothed;2");
+  //  models.back().add(t2qq_1fold, folder+"limits_T2qq_full_01Feb-OneFold_extrapolated.root", 
+  //  		    cQuark2, "gr_obs_smoothed;2", "gr_exp_smoothed;2");
+  // models.back().add(t2bb      , folder+"limits_T2bb_full_July24.root", 
+  // 		    cBottom, "gr_obs_smoothed", "gr_exp_smoothed");
+  // models.back().add(t2tt      , folder+"limits_T2tt_full_July24.root ",
+  // 		    cTop, "gr_obs_smoothed", "gr_exp_smoothed");
+
+  models.back().add(t2qq_8fold, folder+"limits_T2qq_full_Mar07_V1.root", 
+   		    cQuark, "gr_obs_smoothed", "gr_exp_smoothed");
+  models.back().add(t2qq_1fold, folder+"limits_T2qq_full_Mar07_V1-OneFold.root", 
+  		    cQuark2, "gr_obs_smoothed", "gr_exp_smoothed");
+  models.back().add(t2bb      , folder+"limits_T2bb_full_Mar07_V2.root", 
   		    cBottom, "gr_obs_smoothed", "gr_exp_smoothed");
-  models.back().add(t2tt      , folder+"limits_T2tt_full_July24.root ",
-  		    cTop, "gr_obs_smoothed", "gr_exp_smoothed");
+  models.back().add(t2tt      , folder+"limits_T2tt_full_Mar07_V2.root", 
+		    cTop, "gr_obs_smoothed", "gr_exp_smoothed");
+
+
+  ///////////////////////////////    Defining T2 stop plot    /////////////////////////////////
+  models.push_back(model_limits("T2stop", t2stop));
+
+  models.back().add(t2tt_top, folder+"limits_T2tt_full_Mar07_V2.root", 
+   		    cTop, "gr_obs_smoothed", "gr_exp_smoothed");
+  models.back().add(t2cc, folder+"limits_T2cc_full_Mar07_V1.root", 
+  		    cTopC, "gr_obs_smoothed", "gr_exp_smoothed");
+  models.back().add(t2bt      , folder+"limits_T2bt_full_Mar07_V2.root", 
+  		    cTopB, "gr_obs_smoothed", "gr_exp_smoothed");
+  models.back().add(t2bW      , folder+"limits_T2bW_full_Mar07_V2.root", 
+		    cTopW, "gr_obs_smoothed", "gr_exp_smoothed");
+
+  
 
   ////// 2015
 //  ///////////////////////////////    Defining T1 plot    /////////////////////////////////
@@ -171,6 +214,8 @@ int main(){
   for(size_t imodel(0); imodel < models.size(); imodel++){
     model_limits mod(models[imodel]);
 
+    std::cout << "working on model nr = " << imodel << std::endl;
+
     // Creating base histogram and drawing lumi labels
     float Xmin(700), Xmax(2000), Ymin(0), Ymax(1900), glu_lsp;
     TString Xtitle("");
@@ -180,22 +225,38 @@ int main(){
     hbase.Draw();
     addLabelsTitle(lMargin, tMargin, rMargin, mod.title);
 
+
     // Plotting limits
     size_t ncurves(mod.files.size());
     vector<TGraph*> obs(ncurves, 0), exp(ncurves, 0);
     // Getting all graphs first because the ones that come from TCanvas mess up the colors
     for(size_t file(0); file < ncurves; file++){
+
+      std::cout << "working on file nr = " << file << std::endl;
+
+
       TFile flimit(mod.files[file]);
       exp[file] = getGraph(flimit, mod.expnames[file]);
       obs[file] = getGraph(flimit, mod.obsnames[file]);
+
+      std::cout << "got graph of file nr = " << file << std::endl;
+
     }
     for(size_t file(0); file < ncurves; file++){
+
+      std::cout << "setting style and drawing them = " << file << std::endl;
+
       setGraphStyle(exp[file], mod.colors[file], 2, wexp, glu_lsp);
       setGraphStyle(obs[file], mod.colors[file], 1, wobs, glu_lsp);
       obs[file]->Draw("f same");
 
+      std::cout << "setting style and drawing them = " << file << std::endl;
+
       TString obsname("obs"); obsname += imodel; obsname += file;
       obs[file]->SetName(obsname);
+
+      std::cout << obsname << std::endl;
+
     } // Loop over curves in each model
     // Plotting the lines on top of the fills
     for(size_t file(0); file < ncurves; file++){
@@ -225,6 +286,8 @@ int main(){
 
 
 TGraph* getGraph(TFile &flimit, TString gname){
+
+
   TGraph *graph = static_cast<TGraph*>(flimit.Get(gname));
   // If the TGraph is not directly provided in the root file, try to extract it from a TCanvas
   if(graph==0) {
@@ -308,6 +371,7 @@ void getModelParams(TString model, float &Xmin, float &Xmax, float &Ymin, float 
   TString mglu("m_{#kern[0.15]{#tilde{g}}} [GeV]");
   //TString msq("m_{#tilde{q}} [GeV]");
   TString msq("m_{#kern[0.15]{#tilde{q}}} [GeV]");
+  TString mst("m_{#kern[0.15]{#tilde{t}}} [GeV]");
   Xtitle = mglu;
   if(model == "T1"){
     Xmin = 600; Xmax = 2100;
@@ -315,10 +379,16 @@ void getModelParams(TString model, float &Xmin, float &Xmax, float &Ymin, float 
     glu_lsp = 0;
   }
   if(model == "T2"){
-    Xmin = 100; Xmax = 1350;
-    Ymin = 0;   Ymax = 1000;
+    Xmin = 300; Xmax = 1650;
+    Ymin = 0;   Ymax = 1200;
     glu_lsp = 0;
     Xtitle = msq;
+  }
+  if(model == "T2stop"){
+    Xmin = 300; Xmax = 1150;
+    Ymin = 0;   Ymax = 1000;
+    glu_lsp = 0;
+    Xtitle = mst;
   }
   if(model == "T1tttt"){
     Xmin = 600; Xmax = 1950;
@@ -362,16 +432,17 @@ void addLabelsTitle(float lMargin, float tMargin, float rMargin, TString title){
   // Printing process title
   label.SetTextAlign(22); label.SetTextFont(42); label.SetTextSize(0.6*tMargin);
   //label.DrawLatex((1-rMargin-lMargin)/2.+lMargin-0.05, 1-tMargin/2., title);
-  label.DrawLatex(0.75, 1-tMargin-0.15, title);
+  label.DrawLatex(0.75, 1-tMargin-0.15+0.065-0.035, title);
   // Printing luminosity
   label.SetTextAlign(31); label.SetTextFont(42); label.SetTextSize(0.6*tMargin);
   //  label.DrawLatex(1-rMargin-0.02, 1-tMargin+0.018, "2.3 fb^{-1} (13 TeV)");
-  label.DrawLatex(1-rMargin-0.02, 1-tMargin+0.018, "12.9 fb^{-1} (13 TeV)");
+  //  label.DrawLatex(1-rMargin-0.02, 1-tMargin+0.018, "12.9 fb^{-1} (13 TeV)");
+  label.DrawLatex(1-rMargin-0.02, 1-tMargin+0.018, "35.9 fb^{-1} (13 TeV)");
   //label.DrawLatex(1-rMargin-0.02, 1-tMargin+0.018, "Dec 2015");
   // Printing analysis name
   label.SetTextAlign(11); label.SetTextFont(42); label.SetTextSize(legTextSize);
   //  label.DrawLatex(lMargin+offsetx, 1-tMargin-cmsH+0.01, "SUS-15-003, 0-lep (M#lower[-.1]{_{T2}})");
-  label.DrawLatex(lMargin+offsetx, 1-tMargin-cmsH+0.01, "SUS-16-015, 0-lep (M#lower[-.1]{_{T2}})");
+  label.DrawLatex(lMargin+offsetx, 1-tMargin-cmsH+0.01, "SUS-16-036, 0-lep (M#lower[-.1]{_{T2}})");
 }
 
 TH2D baseHistogram(float Xmin, float Xmax, float Ymin, float Ymax, TString Xtitle){
